@@ -331,8 +331,8 @@ container.sprites.Add(Sprite("weapon_rifle_cursor", set_game, 0,12,2,2))
 container.sprites.Add(Sprite("weapon_rifle_proj", set_game, 10,12,2,2))
 
 container.sprites.Add(Sprite("weapon_flashgrenade_body", set_game, 2,8,7,2))
-container.sprites.Add(Sprite("weapon_flashgrenade_cursor", set_game, 0,8,2,2))
-container.sprites.Add(Sprite("weapon_flashgrenade_proj", set_game, 10,8,2,2))
+container.sprites.Add(Sprite("weapon_flashgrenade_cursor", set_game, 0,2,2,2))
+container.sprites.Add(Sprite("weapon_flashgrenade_proj", set_game, 6,2,2,2))
 
 container.sprites.Add(Sprite("hook_chain", set_game, 2,0,1,1))
 container.sprites.Add(Sprite("hook_head", set_game, 3,0,2,1))
