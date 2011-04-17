@@ -228,6 +228,78 @@ void CEffects::Explosion(vec2 Pos)
 }
 
 
+void CEffects::Flash(vec2 Pos)
+{
+	for(int i = 0; i < 12; i++)
+	{
+		CParticle p;
+		p.SetDefault();
+		p.m_Spr = SPRITE_PART_SMOKE;
+		p.m_Pos = Pos;
+		p.m_Vel = RandomDir() * ((0.95f + frandom()*0.2f) * 450.0f);
+		p.m_LifeSpan = 7.0f + frandom()*0.5f;
+		p.m_TransitionTime = 2.0f;
+		p.m_StartSize = 75.0f + frandom()*6.0f;
+		p.m_EndSize = 65.0f + frandom()*5.0f;
+		p.m_Gravity = 0.0f;
+		p.m_Friction = 0.5f;
+		p.m_Color = mix(vec4(1.0f,1.0f,1.0f,0.9f), vec4(0.9f,0.9f,0.9f,0.8f), frandom());
+		m_pClient->m_pParticles->Add(CParticles::GROUP_GENERAL, &p);
+	}
+	
+	for(int i = 0; i < 24; i++)
+	{
+		CParticle p;
+		p.SetDefault();
+		p.m_Spr = SPRITE_PART_SMOKE;
+		p.m_Pos = Pos;
+		p.m_Vel = RandomDir() * ((0.95f + frandom()*0.2f) * 1000.0f);
+		p.m_LifeSpan = 7.0f + frandom()*0.5f;
+		p.m_TransitionTime = 2.0f;
+		p.m_StartSize = 80.0f + frandom()*6.5f;
+		p.m_EndSize = 70.0f + frandom()*5.5f;
+		p.m_Gravity = 0.0f;
+		p.m_Friction = 0.5f;
+		p.m_Color = mix(vec4(1.0f,1.0f,1.0f,0.9f), vec4(0.9f,0.9f,0.9f,0.8f), frandom());
+		m_pClient->m_pParticles->Add(CParticles::GROUP_GENERAL, &p);
+	}
+	
+	for(int i = 0; i < 32; i++)
+	{
+		CParticle p;
+		p.SetDefault();
+		p.m_Spr = SPRITE_PART_SMOKE;
+		p.m_Pos = Pos;
+		p.m_Vel = RandomDir() * ((0.95f + frandom()*0.2f) * 1800.0f);
+		p.m_LifeSpan = 7.0f + frandom()*0.5f;
+		p.m_TransitionTime = 2.0f;
+		p.m_StartSize = 75.0f + frandom()*6.0f;
+		p.m_EndSize = 65.0f + frandom()*5.0f;
+		p.m_Gravity = 0.0f;
+		p.m_Friction = 0.5f;
+		p.m_Color = mix(vec4(1.0f,1.0f,1.0f,0.9f), vec4(0.9f,0.9f,0.9f,0.8f), frandom());
+		m_pClient->m_pParticles->Add(CParticles::GROUP_GENERAL, &p);
+	}
+	
+	for(int i = 0; i < 32; i++)
+	{
+		CParticle p;
+		p.SetDefault();
+		p.m_Spr = SPRITE_PART_SMOKE;
+		p.m_Pos = Pos;
+		p.m_Vel = RandomDir() * ((0.9f + frandom()*0.25f) * 2250.0f);
+		p.m_LifeSpan = 6.0f + frandom()*0.5f;
+		p.m_TransitionTime = 2.0f;
+		p.m_StartSize = 50.0f + frandom()*5.0f;
+		p.m_EndSize = 45.0f + frandom()*4.5f;
+		p.m_Gravity = 0.0f;
+		p.m_Friction = 0.5f;
+		p.m_Color = mix(vec4(1.0f,1.0f,1.0f,0.8f), vec4(0.9f,0.9f,0.9f,0.7f), frandom());
+		m_pClient->m_pParticles->Add(CParticles::GROUP_GENERAL, &p);
+	}
+}
+
+
 void CEffects::HammerHit(vec2 Pos)
 {
 	// add the explosion

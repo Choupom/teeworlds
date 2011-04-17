@@ -144,6 +144,16 @@ void CGameContext::CreateExplosion(vec2 Pos, int Owner, int Weapon, bool NoDamag
 	}
 }
 
+void CGameContext::CreateFlash(vec2 Pos)
+{
+	NETEVENT_FLASH *pEvent = (NETEVENT_FLASH *)m_Events.Create(NETEVENTTYPE_FLASH, sizeof(NETEVENT_FLASH));
+	if(pEvent)
+	{
+		pEvent->m_X = (int)Pos.x;
+		pEvent->m_Y = (int)Pos.y;
+	}
+}
+
 /*
 void create_smoke(vec2 Pos)
 {

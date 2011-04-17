@@ -65,6 +65,7 @@ void CParticles::Add(int Group, CParticle *pPart)
 	
 	// set some parameters
 	m_aParticles[Id].m_Life = 0;
+	m_aParticles[Id].m_StartColor = m_aParticles[Id].m_Color;
 }
 
 void CParticles::Update(float TimePassed)
@@ -105,21 +106,29 @@ void CParticles::Update(float TimePassed)
 			// check particle death
 			if(m_aParticles[i].m_Life > m_aParticles[i].m_LifeSpan)
 			{
-				// remove it from the group list
-				if(m_aParticles[i].m_PrevPart != -1)
-					m_aParticles[m_aParticles[i].m_PrevPart].m_NextPart = m_aParticles[i].m_NextPart;
+				float a = 1.0f;
+				if(m_aParticles[i].m_TransitionTime)
+					a = (m_aParticles[i].m_Life-m_aParticles[i].m_LifeSpan) / m_aParticles[i].m_TransitionTime;
+				if(a >= 1.0f)
+				{
+					// remove it from the group list
+					if(m_aParticles[i].m_PrevPart != -1)
+						m_aParticles[m_aParticles[i].m_PrevPart].m_NextPart = m_aParticles[i].m_NextPart;
+					else
+						m_aFirstPart[g] = m_aParticles[i].m_NextPart;
+						
+					if(m_aParticles[i].m_NextPart != -1)
+						m_aParticles[m_aParticles[i].m_NextPart].m_PrevPart = m_aParticles[i].m_PrevPart;
+						
+					// insert to the free list
+					if(m_FirstFree != -1)
+						m_aParticles[m_FirstFree].m_PrevPart = i;
+					m_aParticles[i].m_PrevPart = -1;
+					m_aParticles[i].m_NextPart = m_FirstFree;
+					m_FirstFree = i;
+				}
 				else
-					m_aFirstPart[g] = m_aParticles[i].m_NextPart;
-					
-				if(m_aParticles[i].m_NextPart != -1)
-					m_aParticles[m_aParticles[i].m_NextPart].m_PrevPart = m_aParticles[i].m_PrevPart;
-					
-				// insert to the free list
-				if(m_FirstFree != -1)
-					m_aParticles[m_FirstFree].m_PrevPart = i;
-				m_aParticles[i].m_PrevPart = -1;
-				m_aParticles[i].m_NextPart = m_FirstFree;
-				m_FirstFree = i;
+					m_aParticles[i].m_Color.a = (1-a)*m_aParticles[i].m_StartColor.a;
 			}
 			
 			i = Next;

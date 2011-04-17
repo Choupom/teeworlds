@@ -36,6 +36,11 @@ void CItems::RenderProjectile(const CNetObj_Projectile *pCurrent, int ItemID)
 		Curvature = m_pClient->m_Tuning.m_GunCurvature;
 		Speed = m_pClient->m_Tuning.m_GunSpeed;
 	}
+	else if(pCurrent->m_Type == WEAPON_FLASHGRENADE)
+	{
+		Curvature = pCurrent->m_Curvature/100.0f;
+		Speed = pCurrent->m_Speed/100.0f;
+	}
 
 	float Ct = (Client()->PrevGameTick()-pCurrent->m_StartTick)/(float)SERVER_TICK_SPEED + Client()->GameTickTime();
 	if(Ct < 0)
@@ -56,7 +61,7 @@ void CItems::RenderProjectile(const CNetObj_Projectile *pCurrent, int ItemID)
 	
 
 	// add particle for this projectile
-	if(pCurrent->m_Type == WEAPON_GRENADE)
+	if(pCurrent->m_Type == WEAPON_GRENADE || pCurrent->m_Type == WEAPON_FLASHGRENADE)
 	{
 		m_pClient->m_pEffects->SmokeTrail(Pos, Vel*-1);
 		m_pClient->m_pFlow->Add(Pos, Vel*1000*Client()->FrameTime(), 10.0f);

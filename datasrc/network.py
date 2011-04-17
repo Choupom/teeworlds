@@ -65,6 +65,9 @@ Objects = [
 		NetIntAny("m_VelX"),
 		NetIntAny("m_VelY"),
 		
+		NetIntAny("m_Curvature"),
+		NetIntAny("m_Speed"),
+		
 		NetIntRange("m_Type", 0, 'NUM_WEAPONS-1'),
 		NetTick("m_StartTick"),
 	]),
@@ -179,6 +182,7 @@ Objects = [
 	
 
 	NetEvent("Explosion:Common", []),
+	NetEvent("Flash:Common", []),
 	NetEvent("Spawn:Common", []),
 	NetEvent("HammerHit:Common", []),
 	

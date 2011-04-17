@@ -622,6 +622,11 @@ void CGameClient::ProcessEvents()
 			NETEVENT_EXPLOSION *ev = (NETEVENT_EXPLOSION *)pData;
 			g_GameClient.m_pEffects->Explosion(vec2(ev->m_X, ev->m_Y));
 		}
+		else if(Item.m_Type == NETEVENTTYPE_FLASH)
+		{
+			NETEVENT_FLASH *ev = (NETEVENT_FLASH *)pData;
+			g_GameClient.m_pEffects->Flash(vec2(ev->m_X, ev->m_Y));
+		}
 		else if(Item.m_Type == NETEVENTTYPE_HAMMERHIT)
 		{
 			NETEVENT_HAMMERHIT *ev = (NETEVENT_HAMMERHIT *)pData;

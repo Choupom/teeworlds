@@ -12,6 +12,7 @@ struct CParticle
 	{
 		m_Vel = vec2(0,0);
 		m_LifeSpan = 0;
+		m_TransitionTime = 0;
 		m_StartSize = 32;
 		m_EndSize = 32;
 		m_Rot = 0;
@@ -30,6 +31,7 @@ struct CParticle
 	float m_FlowAffected;
 
 	float m_LifeSpan;
+	float m_TransitionTime;
 	
 	float m_StartSize;
 	float m_EndSize;
@@ -44,6 +46,7 @@ struct CParticle
 	
 	// set by the particle system
 	float m_Life;
+	vec4 m_StartColor;
 	int m_PrevPart;
 	int m_NextPart;
 };

@@ -17,6 +17,8 @@ public:
 	virtual void Snap(int SnappingClient);
 	
 private:
+	static const int ms_PhysSize = 28;
+	
 	vec2 m_Direction;
 	int m_LifeSpan;
 	int m_Owner;
@@ -27,6 +29,8 @@ private:
 	float m_Force;
 	int m_StartTick;
 	bool m_Explosive;
+	float m_Curvature;
+	int m_Speed;
 };
 
 #endif

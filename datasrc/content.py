@@ -146,6 +146,14 @@ class Weapon_Ninja(Struct):
 		self.movetime = Int(200)
 		self.velocity = Int(50)
 
+class Weapon_FlashGrenade(Struct):
+	def __init__(self):
+		Struct.__init__(self, "WEAPONSPEC_FLASHGRENADE")
+		self.base = Pointer(WeaponSpec, WeaponSpec())
+		self.curvature = Float(9.0)
+		self.speed = Float(800)
+		self.lifetime = Float(7.0)
+
 class Weapons(Struct):
 	def __init__(self):
 		Struct.__init__(self, "WEAPONSPECS")
@@ -153,6 +161,7 @@ class Weapons(Struct):
 		self.gun = Weapon_Gun()
 		self.shotgun = Weapon_Shotgun()
 		self.grenade = Weapon_Grenade()
+		self.flashgrenade = Weapon_FlashGrenade()
 		self.rifle = Weapon_Rifle()
 		self.ninja = Weapon_Ninja()
 		self.id = Array(WeaponSpec())
@@ -320,6 +329,10 @@ container.sprites.Add(Sprite("weapon_ninja_proj", set_game, 0,0,0,0))
 container.sprites.Add(Sprite("weapon_rifle_body", set_game, 2,12,7,3))
 container.sprites.Add(Sprite("weapon_rifle_cursor", set_game, 0,12,2,2))
 container.sprites.Add(Sprite("weapon_rifle_proj", set_game, 10,12,2,2))
+
+container.sprites.Add(Sprite("weapon_flashgrenade_body", set_game, 2,8,7,2))
+container.sprites.Add(Sprite("weapon_flashgrenade_cursor", set_game, 0,8,2,2))
+container.sprites.Add(Sprite("weapon_flashgrenade_proj", set_game, 10,8,2,2))
 
 container.sprites.Add(Sprite("hook_chain", set_game, 2,0,1,1))
 container.sprites.Add(Sprite("hook_head", set_game, 3,0,2,1))
@@ -495,4 +508,12 @@ weapon.offsety.Set(0)
 weapon.muzzleoffsetx.Set(40)
 weapon.muzzleoffsety.Set(-4)
 container.weapons.ninja.base.Set(weapon)
+container.weapons.id.Add(weapon)
+
+weapon = WeaponSpec(container, "flashgrenade")
+weapon.firedelay.Set(600)
+weapon.visual_size.Set(96)
+weapon.offsetx.Set(24)
+weapon.offsety.Set(-2)
+container.weapons.flashgrenade.base.Set(weapon)
 container.weapons.id.Add(weapon)
