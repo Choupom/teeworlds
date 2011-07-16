@@ -339,7 +339,7 @@ void IGameController::OnCharacterSpawn(class CCharacter *pChr)
 	// give default weapons
 	pChr->GiveWeapon(WEAPON_HAMMER, -1);
 	pChr->GiveWeapon(WEAPON_GUN, 10);
-	pChr->GiveWeapon(WEAPON_FLASHGRENADE, 10);
+	pChr->GiveWeapon(WEAPON_FLASHGRENADE, 5);
 }
 
 void IGameController::DoWarmup(int Seconds)

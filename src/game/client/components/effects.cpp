@@ -14,6 +14,7 @@
 
 #include "effects.h"
 
+inline int Random(int a, int b) { return frandom() > 0.5f ? a : b; }
 inline vec2 RandomDir() { return normalize(vec2(frandom()-0.5f, frandom()-0.5f)); }
 
 CEffects::CEffects()
@@ -234,20 +235,44 @@ void CEffects::Flash(vec2 Pos)
 	{
 		int Group = t == 0 ? CParticles::GROUP_PROJECTILE_TRAIL : CParticles::GROUP_GENERAL;
 
-		for(int i = 0; i < 6; i++)
+		for(int i = 0; i < 2; i++)
 		{
 			CParticle p;
 			p.SetDefault();
-			p.m_Spr = t == 0 ? SPRITE_PART_BACKFLASH01 : SPRITE_PART_FOREFLASH01;
+			if(t == 0)
+				p.m_Spr = Random(SPRITE_PART_BACKFLASH01, SPRITE_PART_BACKFLASH02);
+			else
+				p.m_Spr = Random(SPRITE_PART_FOREFLASH01, SPRITE_PART_FOREFLASH02);
 			p.m_Pos = Pos;
 			p.m_Vel = RandomDir() * ((0.95f + frandom()*0.2f) * 800.0f);
-			p.m_LifeSpan = 7.0f + frandom()*0.5f;
+			p.m_LifeSpan = 6.0f + frandom()*0.5f;
 			p.m_TransitionTime = 2.0f;
-			p.m_StartSize = 150.0f + frandom()*12.0f;
-			p.m_EndSize = 150.0f + frandom()*24.0f;
+			p.m_StartSize = 110.0f + frandom()*12.0f;
+			p.m_EndSize = 110.0f + frandom()*24.0f;
 			p.m_Gravity = 0.0f;
 			p.m_Friction = 0.5f;
-			p.m_Color = mix(vec4(1.0f,1.0f,1.0f,1.0f), vec4(1.0f,1.0f,1.0f,0.9f), frandom());
+			p.m_Color = vec4(1.0f,1.0f,1.0f,1.0f);
+			p.m_Rot = frandom()*pi*2;
+			m_pClient->m_pParticles->Add(Group, &p);
+		}
+
+		for(int i = 0; i < 4; i++)
+		{
+			CParticle p;
+			p.SetDefault();
+			if(t == 0)
+				p.m_Spr = Random(SPRITE_PART_BACKFLASH01, SPRITE_PART_BACKFLASH02);
+			else
+				p.m_Spr = Random(SPRITE_PART_FOREFLASH01, SPRITE_PART_FOREFLASH02);
+			p.m_Pos = Pos;
+			p.m_Vel = RandomDir() * ((0.95f + frandom()*0.2f) * 1600.0f);
+			p.m_LifeSpan = 6.0f + frandom()*0.5f;
+			p.m_TransitionTime = 2.0f;
+			p.m_StartSize = 140.0f + frandom()*13.0f;
+			p.m_EndSize = 140.0f + frandom()*26.0f;
+			p.m_Gravity = 0.0f;
+			p.m_Friction = 0.5f;
+			p.m_Color = vec4(1.0f,1.0f,1.0f,1.0f);
 			p.m_Rot = frandom()*pi*2;
 			m_pClient->m_pParticles->Add(Group, &p);
 		}
@@ -256,34 +281,19 @@ void CEffects::Flash(vec2 Pos)
 		{
 			CParticle p;
 			p.SetDefault();
-			p.m_Spr = t == 0 ? SPRITE_PART_BACKFLASH02 : SPRITE_PART_FOREFLASH02;
-			p.m_Pos = Pos;
-			p.m_Vel = RandomDir() * ((0.95f + frandom()*0.2f) * 1600.0f);
-			p.m_LifeSpan = 7.0f + frandom()*0.5f;
-			p.m_TransitionTime = 2.0f;
-			p.m_StartSize = 160.0f + frandom()*13.0f;
-			p.m_EndSize = 160.0f + frandom()*26.0f;
-			p.m_Gravity = 0.0f;
-			p.m_Friction = 0.5f;
-			p.m_Color = mix(vec4(1.0f,1.0f,1.0f,1.0f), vec4(1.0f,1.0f,1.0f,0.8f), frandom());
-			p.m_Rot = frandom()*pi*2;
-			m_pClient->m_pParticles->Add(Group, &p);
-		}
-
-		for(int i = 0; i < 10; i++)
-		{
-			CParticle p;
-			p.SetDefault();
-			p.m_Spr = t == 0 ? SPRITE_PART_BACKFLASH02 : SPRITE_PART_FOREFLASH02;
+			if(t == 0)
+				p.m_Spr = Random(SPRITE_PART_BACKFLASH01, SPRITE_PART_BACKFLASH02);
+			else
+				p.m_Spr = Random(SPRITE_PART_FOREFLASH01, SPRITE_PART_FOREFLASH02);
 			p.m_Pos = Pos;
 			p.m_Vel = RandomDir() * ((0.95f + frandom()*0.2f) * 2400.0f);
-			p.m_LifeSpan = 7.0f + frandom()*0.5f;
+			p.m_LifeSpan = 6.0f + frandom()*0.5f;
 			p.m_TransitionTime = 2.0f;
 			p.m_StartSize = 170.0f + frandom()*14.0f;
 			p.m_EndSize = 170.0f + frandom()*28.0f;
 			p.m_Gravity = 0.0f;
 			p.m_Friction = 0.5f;
-			p.m_Color = mix(vec4(1.0f,1.0f,1.0f,1.0f), vec4(1.0f,1.0f,1.0f,0.7f), frandom());
+			p.m_Color = vec4(1.0f,1.0f,1.0f,1.0f);
 			p.m_Rot = frandom()*pi*2;
 			m_pClient->m_pParticles->Add(Group, &p);
 		}
