@@ -71,6 +71,7 @@ void CCharacterCore::Reset()
 	m_HookState = HOOK_IDLE;
 	m_HookedPlayer = -1;
 	m_Jumped = 0;
+	m_Dashed = 0;
 	m_TriggeredEvents = 0;
 }
 
@@ -114,27 +115,36 @@ void CCharacterCore::Tick(bool UseInput)
 		// handle jump
 		if(m_Input.m_Jump)
 		{
-			if(!(m_Jumped&1))
+			if(!m_Jumped && Grounded)
 			{
-				if(Grounded)
-				{
-					m_TriggeredEvents |= COREEVENT_GROUND_JUMP;
-					m_Vel.y = -m_pWorld->m_Tuning.m_GroundJumpImpulse;
-					m_Jumped |= 1;
-				}
-				else if(!(m_Jumped&2))
-				{
-					m_TriggeredEvents |= COREEVENT_AIR_JUMP;
-					float Momentum = length(m_Vel);
-					float MomentumScale = (dot(normalize(m_Vel), TargetDirection) + 1) * 0.5f;
-					float Boost = 6;
-					m_Vel = TargetDirection * Momentum * MomentumScale + TargetDirection * Boost;
-					m_Jumped |= 3;
-				}
+				m_TriggeredEvents |= COREEVENT_GROUND_JUMP;
+				m_Vel.y = -m_pWorld->m_Tuning.m_GroundJumpImpulse;
+				m_Jumped = 1;
 			}
 		}
 		else
-			m_Jumped &= ~1;
+			m_Jumped = 0;
+
+		// handle dash
+		if(m_Input.m_Dash)
+		{
+			if(!(m_Dashed&1) && !(m_Dashed&2))
+			{
+				m_TriggeredEvents |= COREEVENT_AIR_JUMP;
+				float Momentum = length(m_Vel);
+				float MomentumScale = (dot(normalize(m_Vel), TargetDirection) + 1) * 0.5f;
+				float Boost = 6.0f;
+				if(Momentum >= 20.0f)
+					Boost = 0.0f;
+				else if(Momentum >= 20.0f-Boost)
+					Boost = 20.0f-Momentum;
+				dbg_msg("hi", "%f %f", Momentum, Boost);
+				m_Vel = TargetDirection * Momentum * MomentumScale + TargetDirection * Boost;
+				m_Dashed |= 3;
+			}
+		}
+		else
+			m_Dashed &= ~1;
 
 		// handle hook
 		if(m_Input.m_Hook)
@@ -165,11 +175,11 @@ void CCharacterCore::Tick(bool UseInput)
 	if(m_Direction == 0)
 		m_Vel.x *= Friction;
 
-	// handle jumping
-	// 1 bit = to keep track if a jump has been made on this input
-	// 2 bit = to keep track if a air-jump has been made
+	// handle dashing
+	// 1 bit = to keep track if a dash has been made on this input
+	// 2 bit = to keep track if a dash has been made
 	if(Grounded)
-		m_Jumped &= ~2;
+		m_Dashed &= ~2;
 
 	// do hook
 	if(m_HookState == HOOK_IDLE)
@@ -417,6 +427,7 @@ void CCharacterCore::Write(CNetObj_CharacterCore *pObjCore)
 	pObjCore->m_HookDy = round(m_HookDir.y*256.0f);
 	pObjCore->m_HookedPlayer = m_HookedPlayer;
 	pObjCore->m_Jumped = m_Jumped;
+	pObjCore->m_Dashed = m_Dashed;
 	pObjCore->m_Direction = m_Direction;
 	pObjCore->m_Angle = m_Angle;
 }
@@ -435,6 +446,7 @@ void CCharacterCore::Read(const CNetObj_CharacterCore *pObjCore)
 	m_HookDir.y = pObjCore->m_HookDy/256.0f;
 	m_HookedPlayer = pObjCore->m_HookedPlayer;
 	m_Jumped = pObjCore->m_Jumped;
+	m_Dashed = pObjCore->m_Dashed;
 	m_Direction = pObjCore->m_Direction;
 	m_Angle = pObjCore->m_Angle;
 }

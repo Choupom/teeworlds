@@ -27,6 +27,7 @@ void CControls::OnReset()
 		m_LastData.m_Fire++;
 	m_LastData.m_Fire &= INPUT_STATE_MASK;
 	m_LastData.m_Jump = 0;
+	m_LastData.m_Dash = 0;
 	m_InputData = m_LastData;
 
 	m_InputDirectionLeft = 0;
@@ -83,6 +84,7 @@ void CControls::OnConsoleInit()
 	Console()->Register("+left", "", CFGFLAG_CLIENT, ConKeyInputState, &m_InputDirectionLeft, "Move left");
 	Console()->Register("+right", "", CFGFLAG_CLIENT, ConKeyInputState, &m_InputDirectionRight, "Move right");
 	Console()->Register("+jump", "", CFGFLAG_CLIENT, ConKeyInputState, &m_InputData.m_Jump, "Jump");
+	Console()->Register("+dash", "", CFGFLAG_CLIENT, ConKeyInputState, &m_InputData.m_Dash, "Dash");
 	Console()->Register("+hook", "", CFGFLAG_CLIENT, ConKeyInputState, &m_InputData.m_Hook, "Hook");
 	Console()->Register("+fire", "", CFGFLAG_CLIENT, ConKeyInputCounter, &m_InputData.m_Fire, "Fire");
 
@@ -162,6 +164,7 @@ int CControls::SnapInput(int *pData)
 
 			m_InputData.m_Direction = ((int)t/2)%3-1;
 			m_InputData.m_Jump = ((int)t)&1;
+			m_InputData.m_Dash = ((int)(t*7))&1;
 			m_InputData.m_Fire = ((int)(t*10));
 			m_InputData.m_Hook = ((int)(t*2))&1;
 			m_InputData.m_WantedWeapon = ((int)t)%NUM_WEAPONS;
@@ -172,6 +175,7 @@ int CControls::SnapInput(int *pData)
 		// check if we need to send input
 		if(m_InputData.m_Direction != m_LastData.m_Direction) Send = true;
 		else if(m_InputData.m_Jump != m_LastData.m_Jump) Send = true;
+		else if(m_InputData.m_Dash != m_LastData.m_Dash) Send = true;
 		else if(m_InputData.m_Fire != m_LastData.m_Fire) Send = true;
 		else if(m_InputData.m_Hook != m_LastData.m_Hook) Send = true;
 		else if(m_InputData.m_WantedWeapon != m_LastData.m_WantedWeapon) Send = true;

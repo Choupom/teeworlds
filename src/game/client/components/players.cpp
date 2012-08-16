@@ -262,14 +262,14 @@ void CPlayers::RenderPlayer(
 
 	m_pClient->m_pFlow->Add(Position, Vel*100.0f, 10.0f);
 
-	RenderInfo.m_GotAirJump = Player.m_Jumped&2?0:1;
+	RenderInfo.m_GotAirJump = Player.m_Dashed&2?0:1;
 
 
 	// detect events
 	if(NewTick)
 	{
 		// detect air jump
-		if(!RenderInfo.m_GotAirJump && !(Prev.m_Jumped&2))
+		if(!RenderInfo.m_GotAirJump && !(Prev.m_Dashed&2))
 			m_pClient->m_pEffects->AirJump(Position);
 	}
 

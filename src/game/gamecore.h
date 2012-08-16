@@ -187,6 +187,7 @@ public:
 	int m_HookedPlayer;
 
 	int m_Jumped;
+	int m_Dashed;
 
 	int m_Direction;
 	int m_Angle;
