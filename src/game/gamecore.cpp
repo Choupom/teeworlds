@@ -133,13 +133,12 @@ void CCharacterCore::Tick(bool UseInput)
 			{
 				m_TriggeredEvents |= COREEVENT_AIR_JUMP;
 				float Momentum = length(m_Vel);
-				float MomentumScale = (dot(normalize(m_Vel), TargetDirection) + 1) * 0.5f;
+				float MomentumScale = (dot(normalize(m_Vel), TargetDirection) + 3) / 4;
 				float Boost = 6.0f;
 				if(Momentum >= 20.0f)
 					Boost = 0.0f;
 				else if(Momentum >= 20.0f-Boost)
 					Boost = 20.0f-Momentum;
-				dbg_msg("hi", "%f %f", Momentum, Boost);
 				m_Vel = TargetDirection * Momentum * MomentumScale + TargetDirection * Boost;
 				m_Dashed |= 3;
 				m_DashTick = 0;
