@@ -131,6 +131,7 @@ Objects = [
 
 		NetIntRange("m_Jumped", 0, 1),
 		NetIntRange("m_Dashed", 0, 3),
+		NetTick("m_DashTick"),
 		NetIntRange("m_HookedPlayer", 0, 'MAX_CLIENTS-1'),
 		NetIntRange("m_HookState", -1, 5),
 		NetTick("m_HookTick"),

@@ -72,6 +72,7 @@ void CCharacterCore::Reset()
 	m_HookedPlayer = -1;
 	m_Jumped = 0;
 	m_Dashed = 0;
+	m_DashTick = 0;
 	m_TriggeredEvents = 0;
 }
 
@@ -141,6 +142,7 @@ void CCharacterCore::Tick(bool UseInput)
 				dbg_msg("hi", "%f %f", Momentum, Boost);
 				m_Vel = TargetDirection * Momentum * MomentumScale + TargetDirection * Boost;
 				m_Dashed |= 3;
+				m_DashTick = 0;
 			}
 		}
 		else
@@ -178,7 +180,8 @@ void CCharacterCore::Tick(bool UseInput)
 	// handle dashing
 	// 1 bit = to keep track if a dash has been made on this input
 	// 2 bit = to keep track if a dash has been made
-	if(Grounded)
+	m_DashTick++;
+	if(Grounded && m_DashTick >= SERVER_TICK_SPEED)
 		m_Dashed &= ~2;
 
 	// do hook
@@ -428,6 +431,7 @@ void CCharacterCore::Write(CNetObj_CharacterCore *pObjCore)
 	pObjCore->m_HookedPlayer = m_HookedPlayer;
 	pObjCore->m_Jumped = m_Jumped;
 	pObjCore->m_Dashed = m_Dashed;
+	pObjCore->m_DashTick = m_DashTick;
 	pObjCore->m_Direction = m_Direction;
 	pObjCore->m_Angle = m_Angle;
 }
@@ -447,6 +451,7 @@ void CCharacterCore::Read(const CNetObj_CharacterCore *pObjCore)
 	m_HookedPlayer = pObjCore->m_HookedPlayer;
 	m_Jumped = pObjCore->m_Jumped;
 	m_Dashed = pObjCore->m_Dashed;
+	m_DashTick = pObjCore->m_DashTick;
 	m_Direction = pObjCore->m_Direction;
 	m_Angle = pObjCore->m_Angle;
 }

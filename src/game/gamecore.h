@@ -188,6 +188,7 @@ public:
 
 	int m_Jumped;
 	int m_Dashed;
+	int m_DashTick;
 
 	int m_Direction;
 	int m_Angle;
