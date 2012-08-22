@@ -180,7 +180,7 @@ void CCharacterCore::Tick(bool UseInput)
 	// 1 bit = to keep track if a dash has been made on this input
 	// 2 bit = to keep track if a dash has been made
 	m_DashTick++;
-	if(Grounded && m_DashTick >= SERVER_TICK_SPEED)
+	if(Grounded && m_DashTick >= SERVER_TICK_SPEED/2)
 		m_Dashed &= ~2;
 
 	// do hook
